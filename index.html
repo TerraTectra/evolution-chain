@@ -3,89 +3,78 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Эволюция: от атома к разуму</title>
-  <meta name="description" content="Браузерная idle-игра о росте сложности материи: атомы, молекулы, органика, протоклетки и первая жизнь." />
+  <title>Evolution Chain — от атома к жизни</title>
+  <meta name="description" content="Real-time sandbox симуляция происхождения жизни: атомы, молекулы, органика, протоклетки и первые клетки." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app-shell">
+  <div class="app">
     <header class="topbar">
       <div>
-        <p class="eyebrow">Evolution Chain / MVP 0.1</p>
-        <h1>Эволюция: от атома к разуму</h1>
+        <p class="eyebrow">Evolution Chain / real-time observer sandbox</p>
+        <h1>От атома к жизни</h1>
+        <p class="subtitle">Наблюдай, как материя сама проходит путь от хаоса к первым клеткам. Ты не выбираешь результат — только покупаешь случайные вбросы по открытым эпохам.</p>
       </div>
-      <div class="top-actions">
-        <button id="saveBtn" class="ghost-btn">Сохранить</button>
-        <button id="resetBtn" class="danger-btn">Сброс</button>
+      <div class="controls">
+        <button id="pauseBtn" class="ghost">Пауза</button>
+        <button class="speed active" data-speed="1">x1</button>
+        <button class="speed" data-speed="5">x5</button>
+        <button class="speed" data-speed="20">x20</button>
+        <button id="resetBtn" class="danger">Сброс</button>
       </div>
     </header>
 
     <main class="layout">
-      <section class="panel hero-panel">
-        <div class="stage-head">
+      <aside class="panel stats-panel">
+        <div class="score-card">
+          <span>Очки эволюции</span>
+          <strong id="pointsValue">0</strong>
+          <small>дают открытия, деления и мутации</small>
+        </div>
+        <div id="statsGrid" class="stats-grid"></div>
+        <div class="selected-card">
+          <p class="eyebrow">Выбранный объект</p>
+          <div id="selectedInfo" class="selected-info">Кликни по частице, молекуле или клетке на поле.</div>
+        </div>
+      </aside>
+
+      <section class="sim-panel">
+        <canvas id="worldCanvas" width="1200" height="760" aria-label="Симуляция эволюции в реальном времени"></canvas>
+        <div class="canvas-hud">
+          <span id="eraBadge">Эпоха: атомы</span>
+          <span id="worldTime">00:00</span>
+          <span id="objectCount">0 объектов</span>
+        </div>
+      </section>
+
+      <aside class="panel shop-panel">
+        <div class="section-head">
           <div>
-            <p class="eyebrow">Текущая стадия</p>
-            <h2 id="stageTitle">Атомы</h2>
+            <p class="eyebrow">Магазин случайностей</p>
+            <h2>Закупки по эпохам</h2>
           </div>
-          <span id="stageBadge" class="stage-badge">1 / 8</span>
         </div>
-        <p id="stageDescription" class="stage-description"></p>
-        <div id="visualCore" class="visual-core" aria-label="Визуализация стадии эволюции"></div>
-        <div class="progress-box">
-          <div class="progress-label">
-            <span>Переход к следующей стадии</span>
-            <span id="progressText">0%</span>
-          </div>
-          <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
-          <button id="advanceBtn" class="primary-btn" disabled>Недостаточно условий</button>
-        </div>
-      </section>
+        <p class="hint">Конкретный объект выбрать нельзя. Кнопка покупает случайный фактор из открытого тира. Каждая купленная единица повышает следующую цену.</p>
+        <div id="shopList" class="shop-list"></div>
+      </aside>
 
-      <section class="panel resources-panel">
-        <p class="eyebrow">Ресурсы</p>
-        <div id="resourcesGrid" class="resources-grid"></div>
-      </section>
-
-      <section class="panel actions-panel">
-        <p class="eyebrow">Действия</p>
-        <div class="action-grid">
-          <button id="actMatter" class="action-btn">
-            <strong>Собрать материю</strong>
-            <span>+ материя и немного энергии</span>
-          </button>
-          <button id="actComplexity" class="action-btn">
-            <strong>Соединить структуры</strong>
-            <span>материя + энергия → сложность</span>
-          </button>
-          <button id="actStability" class="action-btn">
-            <strong>Стабилизировать</strong>
-            <span>сложность + энергия → стабильность</span>
-          </button>
-          <button id="actReplicate" class="action-btn">
-            <strong>Реплицировать</strong>
-            <span>информация → биомасса</span>
-          </button>
-        </div>
-      </section>
-
-      <section class="panel upgrades-panel">
-        <div class="section-title-row">
+      <section class="panel discoveries-panel">
+        <div class="section-head">
           <div>
             <p class="eyebrow">Открытия</p>
-            <h3>Дерево усложнения</h3>
+            <h2>Пройденные пороги</h2>
           </div>
-          <span id="upgradeCount" class="soft-pill">0 открыто</span>
         </div>
-        <div id="upgradesList" class="upgrades-list"></div>
-      </section>
-
-      <section class="panel timeline-panel">
-        <p class="eyebrow">Линия эволюции</p>
-        <div id="timeline" class="timeline"></div>
+        <div id="discoveriesList" class="discoveries-list"></div>
       </section>
 
       <section class="panel log-panel">
-        <p class="eyebrow">Журнал среды</p>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Журнал мира</p>
+            <h2>Ход эксперимента</h2>
+          </div>
+        </div>
         <div id="eventLog" class="event-log"></div>
       </section>
     </main>
