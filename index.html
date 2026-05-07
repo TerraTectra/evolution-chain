@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Эволюция: от атома к разуму</title>
+  <meta name="description" content="Браузерная idle-игра о росте сложности материи: атомы, молекулы, органика, протоклетки и первая жизнь." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Evolution Chain / MVP 0.1</p>
+        <h1>Эволюция: от атома к разуму</h1>
+      </div>
+      <div class="top-actions">
+        <button id="saveBtn" class="ghost-btn">Сохранить</button>
+        <button id="resetBtn" class="danger-btn">Сброс</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel hero-panel">
+        <div class="stage-head">
+          <div>
+            <p class="eyebrow">Текущая стадия</p>
+            <h2 id="stageTitle">Атомы</h2>
+          </div>
+          <span id="stageBadge" class="stage-badge">1 / 8</span>
+        </div>
+        <p id="stageDescription" class="stage-description"></p>
+        <div id="visualCore" class="visual-core" aria-label="Визуализация стадии эволюции"></div>
+        <div class="progress-box">
+          <div class="progress-label">
+            <span>Переход к следующей стадии</span>
+            <span id="progressText">0%</span>
+          </div>
+          <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+          <button id="advanceBtn" class="primary-btn" disabled>Недостаточно условий</button>
+        </div>
+      </section>
+
+      <section class="panel resources-panel">
+        <p class="eyebrow">Ресурсы</p>
+        <div id="resourcesGrid" class="resources-grid"></div>
+      </section>
+
+      <section class="panel actions-panel">
+        <p class="eyebrow">Действия</p>
+        <div class="action-grid">
+          <button id="actMatter" class="action-btn">
+            <strong>Собрать материю</strong>
+            <span>+ материя и немного энергии</span>
+          </button>
+          <button id="actComplexity" class="action-btn">
+            <strong>Соединить структуры</strong>
+            <span>материя + энергия → сложность</span>
+          </button>
+          <button id="actStability" class="action-btn">
+            <strong>Стабилизировать</strong>
+            <span>сложность + энергия → стабильность</span>
+          </button>
+          <button id="actReplicate" class="action-btn">
+            <strong>Реплицировать</strong>
+            <span>информация → биомасса</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="panel upgrades-panel">
+        <div class="section-title-row">
+          <div>
+            <p class="eyebrow">Открытия</p>
+            <h3>Дерево усложнения</h3>
+          </div>
+          <span id="upgradeCount" class="soft-pill">0 открыто</span>
+        </div>
+        <div id="upgradesList" class="upgrades-list"></div>
+      </section>
+
+      <section class="panel timeline-panel">
+        <p class="eyebrow">Линия эволюции</p>
+        <div id="timeline" class="timeline"></div>
+      </section>
+
+      <section class="panel log-panel">
+        <p class="eyebrow">Журнал среды</p>
+        <div id="eventLog" class="event-log"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
